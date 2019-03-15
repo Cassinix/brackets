@@ -2,8 +2,8 @@ module.exports = function check(str, bracketsConfig) {
   const universalCheck = (openBracket, closeBracket) => {
     let openBracketCount = 0;
     let closeBracketCount = 0;
-    //let otherBracketCount = 0;
-    const positionCheck = () => {
+
+    function positionCheck() {
       return openBracketCount >= closeBracketCount;
     }
 
@@ -14,16 +14,12 @@ module.exports = function check(str, bracketsConfig) {
       else if (str[i] === closeBracket) {
         closeBracketCount++;
       }
-     // else otherBracketCount++;
     }
 
-    if (openBracket === closeBracket && openBracketCount % 2 === 0) {
-      return true;
+    function isOk() {
+     return openBracket === closeBracket && openBracketCount % 2 === 0 || (openBracketCount === closeBracketCount);
     }
-    else if (openBracketCount === closeBracketCount) {
-      return true;
-    }
-    else return false;
+    return isOk();
   }
 
   return bracketsConfig.every(element => {
