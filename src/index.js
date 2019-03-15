@@ -1,23 +1,32 @@
 module.exports = function check(str, bracketsConfig) {
-  let roundBracketsCount = 0;
-  let curlyBracketsCount = 0;
-  let squareBracketsCount = 0;
-  let verticalLineCount = 0;
-  for (let i = 0; i < str.length; i++){
-         if (str[i] === '(') roundBracketsCount++;
-    else if (str[i] === ')') roundBracketsCount--;
-    else if (str[i] === '[') squareBracketsCount++;
-    else if (str[i] === ']') squareBracketsCount--;
-    else if (str[i] === '{') curlyBracketsCount++;
-    else if (str[i] === '}') curlyBracketsCount--;
-    else if (str[i] === '|') roundBracketsCount++;
-    else if (str[i] === '|') roundBracketsCount--;
-  
-   const result = 
-    roundBracketsCount === 0 && 
-    squareBracketsCount === 0 &&
-    curlyBracketsCount === 0 &&
-    verticalLineCount === 0;
-  return result;
-}
+  const universalCheck = (openBracket, closeBracket) => {
+    let openBracketCount = 0;
+    let closeBracketCount = 0;
+    //let otherBracketCount = 0;
+    const positionCheck = () => {
+      return openBracketCount >= closeBracketCount;
+    }
+
+    for (let i = 0; i < str.length && positionCheck(); i++) {
+      if (str[i] === openBracket) {
+        openBracketCount++;
+      }
+      else if (str[i] === closeBracket) {
+        closeBracketCount++;
+      }
+     // else otherBracketCount++;
+    }
+
+    if (openBracket === closeBracket && openBracketCount % 2 === 0) {
+      return true;
+    }
+    else if (openBracketCount === closeBracketCount) {
+      return true;
+    }
+    else return false;
+  }
+
+  return bracketsConfig.every(element => {
+    return universalCheck(element[0], element[1]);
+  });
 }
