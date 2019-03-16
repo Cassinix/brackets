@@ -1,28 +1,22 @@
 module.exports = function check(str, bracketsConfig) {
-  const universalCheck = (openBracket, closeBracket) => {
-    let openBracketCount = 0;
-    let closeBracketCount = 0;
+  const hasPairbracket = (str) => !bracketsConfig.every(element =>
+    !(str.includes(element[0].concat(element[1]))));
 
-    function positionCheck() {
-      return openBracketCount >= closeBracketCount;
-    }
-
-    for (let i = 0; i < str.length && positionCheck(); i++) {
-      if (str[i] === openBracket) {
-        openBracketCount++;
+  const bracketTransform = (str) => {
+    bracketsConfig.forEach(element => {
+      if (str.includes(element[0].concat(element[1]))) {
+       str = str.replace((element[0].concat(element[1])), '');
       }
-      else if (str[i] === closeBracket) {
-        closeBracketCount++;
-      }
-    }
+    })
+    return str;
+  };
 
-    function isOk() {
-     return openBracket === closeBracket && openBracketCount % 2 === 0 || (openBracketCount === closeBracketCount);
-    }
-    return isOk();
+  if (str === '') {
+    return true;
   }
-
-  return bracketsConfig.every(element => {
-    return universalCheck(element[0], element[1]);
-  });
+  else if (str !== '' && !hasPairbracket(str)) {
+    return false;
+  }
+  else return check(bracketTransform(str), bracketsConfig);
 }
+
