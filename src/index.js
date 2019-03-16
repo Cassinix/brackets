@@ -1,5 +1,5 @@
 module.exports = function check(str, bracketsConfig) {
-  const hasPairbracket = (str) => !bracketsConfig.every(element =>
+  const hasPairbracket = (str) => bracketsConfig.every(element =>
     !(str.includes(element[0].concat(element[1]))));
 
   const bracketTransform = (str) => {
@@ -14,7 +14,7 @@ module.exports = function check(str, bracketsConfig) {
   if (str === '') {
     return true;
   }
-  else if (str !== '' && !hasPairbracket(str)) {
+  else if (str !== '' && hasPairbracket(str)) {
     return false;
   }
   else return check(bracketTransform(str), bracketsConfig);
